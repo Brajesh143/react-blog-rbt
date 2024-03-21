@@ -1,0 +1,54 @@
+import React from "react"
+import Page from "./Page"
+
+
+function HomeGuest() {
+  return (
+    <Page title="Welcome!" wide={true}>
+      <div className="row align-items-center">
+        <div className="col-lg-7 py-3 py-md-5">
+          <h1 className="display-3">Remember Writing?</h1>
+          <p className="lead text-muted">Are you sick of short tweets and impersonal &ldquo;shared&rdquo; posts that are reminiscent of the late 90&rsquo;s email forwards? We believe getting back to actually writing is the key to enjoying the internet again.</p>
+        </div>
+        <div className="col-lg-5 pl-lg-5 pb-3 py-lg-5">
+          <form>
+            <div className="form-group">
+              <label htmlFor="fname-register" className="text-muted mb-1">
+                <small>FirstName</small>
+              </label>
+              <input id="fname-register" name="fname" className="form-control" type="text" 
+              autoComplete="off" />
+            </div>
+            <div className="form-group">
+              <label htmlFor="lname-register" className="text-muted mb-1">
+                <small>LastName</small>
+              </label>
+              <input id="lname-register" name="lanme" className="form-control" type="text"            
+              autoComplete="off" />
+            </div>
+            <div className="form-group">
+              <label htmlFor="username-register" className="text-muted mb-1">
+                <small>UserName</small>
+              </label>
+              <input id="username-register" name="username" className="form-control" type="text" />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="password-register" className="text-muted mb-1">
+                <small>Password</small>
+              </label>
+              <input id="password-register" name="password" className="form-control" type="password" />
+            </div>
+
+            <button type="submit" className="py-3 mt-4 btn btn-lg btn-success btn-block" 
+           >
+              Sign up for ComplexApp
+            </button>
+          </form>
+        </div>
+      </div>
+    </Page>
+  )
+}
+
+export default HomeGuest
