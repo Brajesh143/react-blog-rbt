@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import Page from "./Page"
 import axios from "axios"
+import swal from "sweetalert"
 
 function HomeGuest() {
   const [ userInput, setUser ] = useState({
@@ -15,11 +16,45 @@ function HomeGuest() {
     setUser({...userInput, [name]: value })
   }
 
+  const [errors, setErrors] = useState({})
+
+  const validate = () => {
+    const newErrors = {};
+      if (!userInput.fname.trim()) newErrors.fname = 'first name is required';
+      if (!userInput.lname.trim()) newErrors.lname = 'last name is required';
+      if (!userInput.username) {
+          newErrors.username = 'username is required';
+      } else if (!/\S+@\S+\.\S+/.test(userInput.username)) {
+          newErrors.username = 'username is invalid';
+      }
+    if (!userInput.password) {
+        newErrors.password = 'password is required';
+    } else if (userInput.password.length < 8) {
+        newErrors.password = 'password must be at least 8 characters';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSignup = async (e) => {
     e.preventDefault()
     
-    const userData = await axios.post('http://localhost:5000/api/user/signup', userInput)
-    console.log(userData) 
+    if (validate()) {
+      const userData = await axios.post('http://localhost:5000/api/user/signup', userInput)
+      if (userData.status === 201) {
+        const responseData = userData.json()
+        console.log("message", typeof userData, responseData.message)
+        swal("Success!", "You have signed up successfully!", "success");
+
+        setUser({
+          fname: "",
+          lname: "",
+          username: "",
+          password: ""
+        })
+      }
+    }
   }
  
   return (
@@ -42,6 +77,7 @@ function HomeGuest() {
               autoComplete="off"
               value={userInput.fname}
               onChange={handleInput} />
+              {errors.fname && <span>{errors.fname}</span>}
             </div>
             <div className="form-group">
               <label htmlFor="lname-register" className="text-muted mb-1">
@@ -54,6 +90,7 @@ function HomeGuest() {
               autoComplete="off"
               value={userInput.lname} 
               onChange={handleInput} />
+              {errors.lname && <span>{errors.lname}</span>}
             </div>
             <div className="form-group">
               <label htmlFor="username-register" className="text-muted mb-1">
@@ -65,6 +102,7 @@ function HomeGuest() {
               type="text"
               value={userInput.username}
               onChange={handleInput} />
+              {errors.username && <span>{errors.username}</span>}
             </div>
 
             <div className="form-group">
@@ -77,6 +115,7 @@ function HomeGuest() {
               type="password"
               value={userInput.password}
               onChange={handleInput} />
+              {errors.password && <span>{errors.password}</span>}
             </div>
 
             <button type="submit" className="py-3 mt-4 btn btn-lg btn-success btn-block" 
