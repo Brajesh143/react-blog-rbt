@@ -43,9 +43,8 @@ function HomeGuest() {
     if (validate()) {
       const userData = await axios.post('http://localhost:5000/api/user/signup', userInput)
       if (userData.status === 201) {
-        const responseData = userData.json()
-        console.log("message", typeof userData, responseData.message)
-        swal("Success!", "You have signed up successfully!", "success");
+        const resData = userData.data
+        swal("Success!", resData.message, "success");
 
         setUser({
           fname: "",

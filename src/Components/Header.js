@@ -1,7 +1,10 @@
-import React  from "react"
+import React, { useState }  from "react"
 import HeaderLogIn from "./HeaderLogIn"
+import HeaderLoggedOut from "./HeaderLogout"
 
 function Header(props) {
+  let [isUserLoggedIn,setisUserLoggedIn ]  = useState(false)
+
   return (
     <header className="header-bar bg-primary mb-3">
       <div className="container d-flex flex-column flex-md-row align-items-center p-3">
@@ -11,7 +14,9 @@ function Header(props) {
           </div>
         </h4>
 
-        <HeaderLogIn />
+        {isUserLoggedIn?
+          <HeaderLoggedOut setisUserLoggedIn={setisUserLoggedIn}></HeaderLoggedOut>:
+          <HeaderLogIn setisUserLoggedIn={setisUserLoggedIn}></HeaderLogIn>}
       </div>
     </header>
   )
