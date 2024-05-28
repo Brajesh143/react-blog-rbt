@@ -55,7 +55,7 @@ export default function Blog() {
                 <div class="card-footer">
                   <div className='row'>
                     <div className='col-md-6'>
-                      <small class="text-body-secondary">Author : Brajesh</small>
+                      <small class="text-body-secondary">Author : { blog.author.fname } {blog.author.lname} </small>
                     </div>
 
                     <div className='col-md-6'>
