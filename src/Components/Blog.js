@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import axios from "axios"
 import '../Blog.css'
 
-export default function Blog() {
+export default function Blog(props) {
   const [blogs, setBlogs] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
@@ -12,13 +12,23 @@ export default function Blog() {
   }, [])
 
   const getBlogs = async() => {
+    let uri = 'http://localhost:5000/api/blog'
+    let headerData = { }
+    if (props.id === 'user_id') {
+      const token = localStorage.getItem('token')
+      uri = 'localhost:5000/api/blog/my-blog'
+      headerData = {
+        'Authorization': `Bearer ${token}`
+      }
+    }
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: 'http://localhost:5000/api/blog',
-      headers: { }
+      url: uri,
+      headers: headerData
     };
 
+    console.log(config)
     try {
       const blogDatas = await axios.request(config)
       if (blogDatas.status === 200) {
