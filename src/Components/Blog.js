@@ -13,10 +13,10 @@ export default function Blog(props) {
 
   const getBlogs = async() => {
     let uri = 'http://localhost:5000/api/blog'
-    let headerData = { }
+    let headerData = {}
     if (props.id === 'user_id') {
       const token = localStorage.getItem('token')
-      uri = 'localhost:5000/api/blog/my-blog'
+      uri = 'http://localhost:5000/api/blog/my-blog'
       headerData = {
         'Authorization': `Bearer ${token}`
       }
@@ -28,7 +28,6 @@ export default function Blog(props) {
       headers: headerData
     };
 
-    console.log(config)
     try {
       const blogDatas = await axios.request(config)
       if (blogDatas.status === 200) {
