@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import swal from "sweetalert";
 
 export default function MyProfile() {
     const [userData, setUserData] = useState({
@@ -29,12 +30,36 @@ export default function MyProfile() {
         }
     }
 
+    const handleUserInput = (e) => {
+        setUserData({...userData, [e.target.name]: e.target.value})
+    }
+
+    const handleProfileUpdate = async (e) => {
+        e.preventDefault()
+        const token = localStorage.getItem('token')
+        let config = {
+            method: 'put',
+            maxBodyLength: Infinity,
+            url: 'http://localhost:5000/api/user/user-update',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            data: userData
+        };
+
+        const updateUserData = await axios.request(config)
+        if (updateUserData.status === 200) {
+            
+            swal("Success!", updateUserData.data.message, "success");
+        }
+    }
+
     return (
         <>
             <div className="container">
                 <h3 className="text-center">My Profile</h3>
                 <div className="col-lg-12">
-                    <form>
+                    <form onSubmit={handleProfileUpdate}>
                         <div className="form-group">
                             <label htmlFor="fname" className="text-muted mb-1">
                                 <small>First Name</small>
@@ -45,6 +70,7 @@ export default function MyProfile() {
                             type="text" 
                             autoComplete="off"
                             value={userData.fname}
+                            onChange={handleUserInput}
                             />
                         </div>
                         <div className="form-group">
@@ -57,6 +83,7 @@ export default function MyProfile() {
                             type="text"            
                             autoComplete="off"
                             value={userData.lname}
+                            onChange={handleUserInput}
                             />
                         </div>
                         
@@ -70,6 +97,7 @@ export default function MyProfile() {
                             type="text"            
                             autoComplete="off"
                             value={userData.username}
+                            onChange={handleUserInput}
                             />
                         </div>
 

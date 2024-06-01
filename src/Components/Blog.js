@@ -2,14 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from "axios"
 import '../Blog.css'
+import swal from 'sweetalert'
 
 export default function Blog(props) {
   const [blogs, setBlogs] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [isBlogDeleted, setIsBlogDeleted] = useState(false)
 
   useEffect(() => {
     getBlogs()
-  }, [])
+  }, [isBlogDeleted])
 
   const getBlogs = async() => {
     let uri = 'http://localhost:5000/api/blog'
@@ -37,6 +39,33 @@ export default function Blog(props) {
     } catch (err) {
       throw new Error(err)
     }
+  }
+
+  const handleBlogDelete = async (e, id) => {
+    e.preventDefault()
+    
+    const token = localStorage.getItem('token')
+    
+    let config = {
+      method: 'delete',
+      maxBodyLength: Infinity,
+      url: 'http://localhost:5000/api/blog/'+id,
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    };
+
+    try {
+      const deleteBlog = await axios.request(config)
+      if (deleteBlog.status === 200) {
+
+        swal("Success!", deleteBlog.data.message, "success");
+        setIsBlogDeleted(true)
+      }
+    } catch (err) {
+      throw new Error(err)
+    }
+
   }
 
   return (
@@ -68,7 +97,14 @@ export default function Blog(props) {
                     </div>
 
                     <div className='col-md-6'>
+                      { props.isUpdate === true &&
+                        <div>
+                          <Link className="btn btn-sm btn-primary mr-2" to={`/edit-blog/${blog._id}`}>Edit</Link>
+                          <button className="btn btn-sm btn-primary mr-2" onClick={(e) => handleBlogDelete(e, blog._id)}>Delete</button>
+                        </div>
+                      ||
                       <small class="text-body-secondary">Last updated 3 mins ago</small>
+                      }
                     </div>
                   </div>
                 </div>

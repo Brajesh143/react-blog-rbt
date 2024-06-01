@@ -4,7 +4,7 @@ import Blog from "./Blog";
 export default function MyBlog() {
     return (
         <>
-            <Blog id="user_id" />
+            <Blog id="user_id" isUpdate={true} isDelete={true} />
         </>
     )
 }

@@ -1,8 +1,8 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import swal from "sweetalert";
 
-export default function CreateBlog() {
+export default function CreateBlog(props) {
     const [blogInput, setBlogData] = useState({
         title: "",
         category: "",
@@ -55,12 +55,61 @@ export default function CreateBlog() {
         }
     }
 
+    useEffect(() => {
+        if (props.isBlogUpdate) {
+            getBlogData()
+        }
+    }, [])
+
+    
+    const getBlogData = async () => {
+        const blog_id = props.blogId
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: 'http://localhost:5000/api/blog/blog-detail/'+blog_id,
+            headers: { }
+        }
+
+        try {
+            const getBlogData = await axios.request(config)
+            if (getBlogData.status === 200) {
+                setBlogData(getBlogData.data.data)
+            }
+        } catch (err) {
+        throw new Error(err)
+        }
+    }
+
+    const handleUpdateBlog = async (e) => {
+        const blog_id = props.blogId
+        e.preventDefault()
+
+        if (validation()) {
+            const token = localStorage.getItem('token')
+            let config = {
+                method: 'put',
+                maxBodyLength: Infinity,
+                url: 'http://localhost:5000/api/blog/'+blog_id,
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                data: blogInput
+            };
+            const updateBlog = await axios.request(config)
+            const resUpdateData = updateBlog.data
+            if (updateBlog.status === 200) {
+                swal("Success!", resUpdateData.message, "success");
+            }
+        }
+    }
+
     return (
         <>
             <div className="container">
-                <h3 className="text-center">Create Blog</h3>
+                <h3 className="text-center">{props.isBlogUpdate && 'Update' || 'Create' } Blog</h3>
                 <div className="col-lg-12">
-                    <form onSubmit={handleCreateBlog}>
+                    <form onSubmit={ props.isBlogUpdate && handleUpdateBlog || handleCreateBlog }>
                         <div className="form-group">
                             <label htmlFor="title" className="text-muted mb-1">
                                 <small>Title</small>
