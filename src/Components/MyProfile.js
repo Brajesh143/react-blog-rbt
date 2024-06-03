@@ -6,8 +6,11 @@ export default function MyProfile() {
     const [userData, setUserData] = useState({
         fname: "",
         lname: "",
-        username: ""
+        username: "",
+        profile_image: ""
     })
+
+    const [file, setFile] = useState()
 
     useEffect(() => {
         getUserData()
@@ -26,25 +29,46 @@ export default function MyProfile() {
         const userData = await axios.request(config)
         if (userData.status === 200) {
             const resData = userData.data.data;
+            console.log(resData)
             setUserData(resData)
+            // setFile(resData.profile_image)
         }
     }
 
     const handleUserInput = (e) => {
-        setUserData({...userData, [e.target.name]: e.target.value})
+        const { name, value, files } = e.target;
+        if (name === 'file') {
+            setFile(files[0]);
+        } else {
+            setUserData({...userData, [name]: value});
+        }
+        // setUserData({...userData, [e.target.name]: e.target.value})
+        // setFile(e.target.files[0])
     }
 
     const handleProfileUpdate = async (e) => {
         e.preventDefault()
+        
+        const formData = new FormData();
+
+        formData.append('fname', userData.fname);
+        formData.append('lname', userData.lname);
+        formData.append('username', userData.username);
+        if (file) {
+            formData.append('image', file);
+        }
+
         const token = localStorage.getItem('token')
+
         let config = {
             method: 'put',
             maxBodyLength: Infinity,
             url: 'http://localhost:5000/api/user/user-update',
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data',
             },
-            data: userData
+            data: formData
         };
 
         const updateUserData = await axios.request(config)
@@ -59,7 +83,7 @@ export default function MyProfile() {
             <div className="container">
                 <h3 className="text-center">My Profile</h3>
                 <div className="col-lg-12">
-                    <form onSubmit={handleProfileUpdate}>
+                    <form onSubmit={handleProfileUpdate} >
                         <div className="form-group">
                             <label htmlFor="fname" className="text-muted mb-1">
                                 <small>First Name</small>
@@ -97,6 +121,25 @@ export default function MyProfile() {
                             type="text"            
                             autoComplete="off"
                             value={userData.username}
+                            onChange={handleUserInput}
+                            />
+                        </div>
+
+                        
+                        {userData.profile_image && (
+                        <div className="form-group">
+                            <img src={`http://localhost:5000/${userData.profile_image}`} alt="Profile_image" style={{ width: '150px', height: '150px' }} />
+                        </div>
+                        )}
+                        <div className="form-group">
+                            <label htmlFor="profile_image" className="text-muted mb-1">
+                                <small>Profile Image</small>
+                            </label>
+                            <input id="profile_image" 
+                            name="file" 
+                            className="form-control" 
+                            type="file"            
+                            autoComplete="off"
                             onChange={handleUserInput}
                             />
                         </div>
