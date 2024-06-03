@@ -6,13 +6,23 @@ export default function CreateBlog(props) {
     const [blogInput, setBlogData] = useState({
         title: "",
         category: "",
-        description: ""
+        description: "",
+        image: ""
     })
+
+    const [file, setFile] = useState()
 
     const [errors, setErrors] = useState({})
 
     const handleInput = (e) => {
-        setBlogData({...blogInput, [e.target.name] : e.target.value})
+        // setBlogData({...blogInput, [e.target.name] : e.target.value})
+        const { name, value } = e.target;
+
+        if (e.target.files) {
+            setFile(e.target.files[0]);
+        } else {
+            setBlogData({...blogInput, [name]: value});
+        }
     }
 
     const validation = () => {
@@ -31,16 +41,26 @@ export default function CreateBlog(props) {
         e.preventDefault()
 
         if (validation()) {
+            const formData = new FormData();
+            formData.append('title', blogInput.title);
+            formData.append('category', blogInput.category);
+            formData.append('description', blogInput.description);
+            if (file) {
+                formData.append('image', file);
+            }
+
             const token = localStorage.getItem('token')
             let config = {
                 method: 'post',
                 maxBodyLength: Infinity,
                 url: 'http://localhost:5000/api/blog/create',
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
                 },
-                data: blogInput
+                data: formData
             };
+
             const createBlog = await axios.request(config)
             const resData = createBlog.data
             if (createBlog.status === 201) {
@@ -49,7 +69,8 @@ export default function CreateBlog(props) {
                 setBlogData({
                     title: '',
                     category: '',
-                    description: ''
+                    description: '',
+                    image: ''
                 })
             }
         }
@@ -86,15 +107,24 @@ export default function CreateBlog(props) {
         e.preventDefault()
 
         if (validation()) {
+            const formData = new FormData();
+            formData.append('title', blogInput.title);
+            formData.append('category', blogInput.category);
+            formData.append('description', blogInput.description);
+            if (file) {
+                formData.append('image', file);
+            }
+
             const token = localStorage.getItem('token')
             let config = {
                 method: 'put',
                 maxBodyLength: Infinity,
                 url: 'http://localhost:5000/api/blog/'+blog_id,
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
                 },
-                data: blogInput
+                data: formData
             };
             const updateBlog = await axios.request(config)
             const resUpdateData = updateBlog.data
@@ -153,6 +183,25 @@ export default function CreateBlog(props) {
                                 onChange={handleInput}
                             />
                             {errors.description && <span>{errors.description}</span>}
+                        </div>
+
+                        {blogInput.image && (
+                        <div className="form-group">
+                            <img src={`http://localhost:5000${blogInput.image}`} alt="Profile_image" style={{ width: '150px', height: '150px' }} />
+                        </div>
+                        )}
+
+                        <div className="form-group">
+                            <label htmlFor="image" className="text-muted mb-1">
+                                <small>Image</small>
+                            </label>
+                            <input id="image" 
+                            name="image" 
+                            className="form-control" 
+                            type="file"            
+                            autoComplete="off"
+                            onChange={handleInput}
+                            />
                         </div>
 
                         <button type="submit" className="py-3 mt-4 btn btn-lg btn-success btn-block">

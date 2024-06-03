@@ -66,7 +66,7 @@ export default function MyProfile() {
             url: 'http://localhost:5000/api/user/user-update',
             headers: {
                 'Authorization': `Bearer ${token}`,
-                'Content-Type': 'multipart/form-data',
+                'Content-Type': 'multipart/form-data'
             },
             data: formData
         };
@@ -128,7 +128,7 @@ export default function MyProfile() {
                         
                         {userData.profile_image && (
                         <div className="form-group">
-                            <img src={`http://localhost:5000/${userData.profile_image}`} alt="Profile_image" style={{ width: '150px', height: '150px' }} />
+                            <img src={`http://localhost:5000${userData.profile_image}`} alt="Profile_image" style={{ width: '150px', height: '150px' }} />
                         </div>
                         )}
                         <div className="form-group">
