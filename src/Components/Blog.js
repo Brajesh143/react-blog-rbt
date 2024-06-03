@@ -9,16 +9,20 @@ export default function Blog(props) {
   const [isLoading, setIsLoading] = useState(true)
   const [isBlogDeleted, setIsBlogDeleted] = useState(false)
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const [itemsPerPage] = useState(5);
+
   useEffect(() => {
     getBlogs()
-  }, [isBlogDeleted])
+  }, [isBlogDeleted, currentPage, itemsPerPage])
 
   const getBlogs = async() => {
-    let uri = 'http://localhost:5000/api/blog'
+    let uri = `http://localhost:5000/api/blog?page=${currentPage}&limit=${itemsPerPage}`
     let headerData = {}
     if (props.id === 'user_id') {
       const token = localStorage.getItem('token')
-      uri = 'http://localhost:5000/api/blog/my-blog'
+      uri = `http://localhost:5000/api/blog/my-blog?page=${currentPage}&limit=${itemsPerPage}`
       headerData = {
         'Authorization': `Bearer ${token}`
       }
@@ -34,6 +38,7 @@ export default function Blog(props) {
       const blogDatas = await axios.request(config)
       if (blogDatas.status === 200) {
         setBlogs(blogDatas.data.data)
+        setTotalItems(blogDatas.data.total)
         setIsLoading(false)
       }
     } catch (err) {
@@ -68,6 +73,23 @@ export default function Blog(props) {
 
   }
 
+  const handleClick = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
+      pageNumbers.push(i);
+    }
+
+    return pageNumbers.map((number) => (
+      <button key={number} onClick={() => handleClick(number)} disabled={number === currentPage}>
+        {number}
+      </button>
+    ));
+  };
+
   return (
     <>
       <div className='container'>
@@ -85,7 +107,7 @@ export default function Blog(props) {
           { blogs.length > 0 && blogs.map((blog) => (
             <div className='col-md-4'>
               <div class="card">
-                <img src="https://img.freepik.com/free-photo/toy-bricks-table-with-word-blog_144627-47465.jpg" class="card-img-top" alt="..." />
+                <img src={`http://localhost:5000${blog.image}`} class="card-img-top" alt="..." height={150} />
                 <div class="card-body">
                   <h5 class="card-title"><Link>{blog.title}</Link></h5>
                   <p class="card-text text-justify">{blog.description}</p>
@@ -113,6 +135,7 @@ export default function Blog(props) {
           )) }
         </div>
         }
+        <div>{renderPageNumbers()}</div>
       </div>
     </>
   )
