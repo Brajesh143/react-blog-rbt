@@ -7,6 +7,7 @@ import HomeGuest from '../HomeGuest'
 import MyBlog from '../MyBlog'
 import MyProfile from '../MyProfile'
 import Terms from '../Terms'
+import UpdateBlog from '../UpdateBlog'
 
 export default function PublicRoute() {
   return (
@@ -19,6 +20,8 @@ export default function PublicRoute() {
         <Route path='/my-profile' element={<MyProfile />} />
         <Route path='/my-blog' element={<MyBlog />} />
         <Route path='/create-blog' element={<CreateBlog />} />
+        <Route path='/edit-blog/:id' element={<UpdateBlog />} />
+        <Route path='/delete-blog/:id' element={<MyBlog />} />
     </Routes>
   )
 }
