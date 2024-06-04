@@ -8,6 +8,7 @@ import MyBlog from '../MyBlog'
 import MyProfile from '../MyProfile'
 import Terms from '../Terms'
 import UpdateBlog from '../UpdateBlog'
+import ResetPassword from '../ResetPassword'
 
 export default function PublicRoute() {
   return (
@@ -22,6 +23,8 @@ export default function PublicRoute() {
         <Route path='/create-blog' element={<CreateBlog />} />
         <Route path='/edit-blog/:id' element={<UpdateBlog />} />
         <Route path='/delete-blog/:id' element={<MyBlog />} />
+        <Route path='/reset-password' element={<ResetPassword />} />
+        <Route path='/forgot-password' />
     </Routes>
   )
 }

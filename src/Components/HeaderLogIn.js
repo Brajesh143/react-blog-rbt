@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import axios from "axios"
 import swal from "sweetalert"
+import { Link } from "react-router-dom"
 
 function HeaderLogIn(props) {
   const [userInput, setUser] = useState({
@@ -76,7 +77,9 @@ function HeaderLogIn(props) {
           value={userInput.password} 
           onChange={handleInput} />
           {errors.password && <span>{errors.password}</span>}
+          <span><Link to={`/forgot-password`} className="forgot-password">forgot password?</Link></span>
         </div>
+        
         <div className="col-md-auto">
           <button type="submit" className="btn btn-success btn-sm">Sign In</button>
         </div>
