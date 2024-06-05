@@ -1,10 +1,12 @@
-import React from "react"
+import React, { useContext } from "react"
 import {Link}  from 'react-router-dom'
 import axios from "axios"
 import swal from "sweetalert"
-
+import { MyContext } from "../MyContext"
 
 function HeaderLoggedOut(props) {
+  const {data, setData} = useContext(MyContext)
+
   const handleLogout = async(e) => {
     e.preventDefault()
 
@@ -26,6 +28,13 @@ function HeaderLoggedOut(props) {
 
       swal('Success!', userRes.message, 'success')
       props.setisUserLoggedIn(false)
+      setData({
+        isAuth: false,
+        fname: "",
+        lname: "",
+        username: "",
+        token: ""
+      })
     }
   }
 

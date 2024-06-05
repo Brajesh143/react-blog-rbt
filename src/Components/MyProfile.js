@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import swal from "sweetalert";
 
 export default function MyProfile() {
@@ -82,6 +83,8 @@ export default function MyProfile() {
         <>
             <div className="container">
                 <h3 className="text-center">My Profile</h3>
+                <Link to={`/reset-password`} className="btn btn-sm btn-success float-right">Reset Password</Link>
+                <br />
                 <div className="col-lg-12">
                     <form onSubmit={handleProfileUpdate} >
                         <div className="form-group">
