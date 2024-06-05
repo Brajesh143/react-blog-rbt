@@ -1,9 +1,11 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import axios from "axios"
 import swal from "sweetalert"
 import { Link } from "react-router-dom"
+import { MyContext } from "../MyContext"
 
 function HeaderLogIn(props) {
+  const { data, setData } = useContext(MyContext)
   const [userInput, setUser] = useState({
     username: "",
     password: ""
@@ -45,7 +47,15 @@ function HeaderLogIn(props) {
         const token = resData.token
         localStorage.setItem('user', JSON.stringify(user_data_to_save))
         localStorage.setItem('token', token)
-        
+
+        setData({
+          isAuth: true,
+          fname: resData.data.fname,
+          lname: resData.data.lname,
+          username: resData.data.username,
+          token: token
+        })
+
         swal("Success!", resData.message, "success");
 
         setUser({

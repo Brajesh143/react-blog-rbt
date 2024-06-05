@@ -1,9 +1,29 @@
-import React, { useState }  from "react"
+import React, { useContext, useEffect, useState }  from "react"
 import HeaderLogIn from "./HeaderLogIn"
 import HeaderLoggedOut from "./HeaderLogout"
+import { MyContext } from "../MyContext"
 
 function Header(props) {
   let [isUserLoggedIn,setisUserLoggedIn ]  = useState(false)
+
+  const {data, setData} = useContext(MyContext)
+
+  useEffect(() => {
+    setLocalDataToContext()
+  }, [])
+
+  const setLocalDataToContext = () => {
+    const localUserData = localStorage.getItem('user')
+    const token = localStorage.getItem('token')
+
+    setData({
+      isAuth: token ? true : false,
+      fname: localUserData ? localUserData.fname : '',
+      lname: localUserData ? localUserData.lname : '',
+      username: localUserData ? localUserData.username : '',
+      token: token ? token : ''
+    })
+  }
 
   return (
     <header className="header-bar bg-primary mb-3">
@@ -14,7 +34,7 @@ function Header(props) {
           </div>
         </h4>
 
-        {isUserLoggedIn?
+        {data.isAuth ?
           <HeaderLoggedOut setisUserLoggedIn={setisUserLoggedIn}></HeaderLoggedOut>:
           <HeaderLogIn setisUserLoggedIn={setisUserLoggedIn}></HeaderLogIn>}
       </div>
