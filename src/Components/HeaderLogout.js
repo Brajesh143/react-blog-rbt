@@ -39,6 +39,20 @@ function HeaderLoggedOut(props) {
   }
 
   return (
+    // <div>
+    //   <img src="https://www.svgrepo.com/show/382109/male-avatar-boy-face-man-user-7.svg" height={40} width={40} alt="profile-image" /><span>Hello</span>
+    //     <div class="dropdown show">
+    //       <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    //         Dropdown link
+    //       </a>
+
+    //       <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    //         <a class="dropdown-item" href="#">Action</a>
+    //         <a class="dropdown-item" href="#">Another action</a>
+    //         <a class="dropdown-item" href="#">Something else here</a>
+    //       </div>
+    //     </div>
+    // </div>
     <div className="flex-row my-3 my-md-0">
       <Link className="btn btn-sm btn-success mr-2" to="/my-profile">My Profile</Link>
       <Link className="btn btn-sm btn-success mr-2" to="/my-blog">My Blog</Link>
