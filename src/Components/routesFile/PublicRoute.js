@@ -12,6 +12,7 @@ import ResetPassword from '../ResetPassword'
 import ForgotPassword from '../ForgotPassword'
 import PrivateRoute from './PrivateRoute'
 import CreatePassword from '../CreatePassword'
+import Product from '../Product'
 
 export default function PublicRoute() {
   return (
@@ -20,6 +21,7 @@ export default function PublicRoute() {
         <Route path='/about-us' element={<About />} />
         <Route path='/terms' element={<Terms />} />
         <Route path='/blog' element={<Blog />} />
+        <Route path='/product' element={<Product />} />
         <Route path='/my-profile' element={<PrivateRoute><MyProfile /></PrivateRoute>} />
         {/* <PrivateRoute path='/my-blog' element={<MyBlog />} /> */}
         {/* <Route path='/my-blog' element={<MyBlog />} /> */}

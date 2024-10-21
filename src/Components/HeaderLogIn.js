@@ -2,10 +2,17 @@ import React, { useContext, useState } from "react"
 import axios from "axios"
 import swal from "sweetalert"
 import { Link } from "react-router-dom"
+// import { useDispatch, useSelector } from "react-redux"
+// import { clearUser, handleLogin, setUser } from "../redux/userSlice"
+// import { createAsyncThunk } from "@reduxjs/toolkit"
+
 import { MyContext } from "../MyContext"
 
 function HeaderLogIn(props) {
   const { data, setData } = useContext(MyContext)
+  // const dispatch = useDispatch();
+  // const user = useSelector((state) => state.user);
+
   const [userInput, setUser] = useState({
     username: "",
     password: ""
@@ -13,10 +20,10 @@ function HeaderLogIn(props) {
 
   const [errors, setErrors] = useState({})
 
-  const handleInput = (e) => {
-    const { name, value } = e.target
-    setUser({...userInput, [name]: value })
-  }
+  // const handleInput = (e) => {
+  //   const { name, value } = e.target
+  //   setUser({...userInput, [name]: value })
+  // }
 
   const validation = () => {
     let newErrors = {}
@@ -30,6 +37,41 @@ function HeaderLogIn(props) {
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0;
   }
+
+  // const onSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (validation()) {
+  //     try {
+  //       const loginData = await dispatch(handleLogin(userInput));
+  //       console.log(loginData)
+  //       if (loginData.status === 200) {
+  //         props.setisUserLoggedIn(true)
+  //         const resData = loginData.data 
+  //         const user_data_to_save = {
+  //           fname: resData.data.fname,
+  //           lname: resData.data.lname,
+  //           username: resData.data.username
+  //         }
+        
+  //         const token = resData.token
+  //         localStorage.setItem('user', JSON.stringify(user_data_to_save))
+  //         localStorage.setItem('token', token)
+
+  //         dispatch(setUser({
+  //           isAuth: true,
+  //           fname: resData.data.fname,
+  //           lname: resData.data.lname,
+  //           username: resData.data.username,
+  //           token: token
+  //         }));
+          
+  //         swal("Success!", resData.message, "success");
+  //       }
+  //     } catch (err) {
+  //       console.error('Login failed:', err);
+  //     }
+  //   }
+  // };
 
   const handleLogin = async (e) => {
     e.preventDefault()
@@ -56,6 +98,14 @@ function HeaderLogIn(props) {
           token: token
         })
 
+        // dispatch(setUser({
+        //   isAuth: true,
+        //   fname: resData.data.fname,
+        //   lname: resData.data.lname,
+        //   username: resData.data.username,
+        //   token: token
+        // }));
+
         swal("Success!", resData.message, "success");
 
         setUser({
@@ -76,7 +126,8 @@ function HeaderLogIn(props) {
           placeholder="Username" 
           autoComplete="off"
           value={userInput.username}
-          onChange={handleInput} />
+          onChange={(e) => setUser({ ...userInput, username: e.target.value })}
+          />
           {errors.username && <span>{errors.username}</span>}
         </div>
         <div className="col-md mr-0 pr-md-0 mb-3 mb-md-0">
@@ -85,7 +136,7 @@ function HeaderLogIn(props) {
           type="password" 
           placeholder="Password"
           value={userInput.password} 
-          onChange={handleInput} />
+          onChange={(e) => setUser({ ...userInput, password: e.target.value })} />
           {errors.password && <span>{errors.password}</span>}
           <span><Link to={`/forgot-password`} className="forgot-password">forgot password?</Link></span>
         </div>
