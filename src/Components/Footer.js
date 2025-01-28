@@ -17,6 +17,10 @@ function Footer() {
           Blog
         </Link>{" "}
         |{" "}
+        <Link className="mx-1" to="/product">
+          Product
+        </Link>{" "}
+        |{" "}
         <Link className="mx-1" to="/terms">
           Terms
         </Link>

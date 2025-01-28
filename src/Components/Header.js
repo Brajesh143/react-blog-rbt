@@ -2,11 +2,16 @@ import React, { useContext, useEffect, useState }  from "react"
 import HeaderLogIn from "./HeaderLogIn"
 import HeaderLoggedOut from "./HeaderLogout"
 import { MyContext } from "../MyContext"
+// import { useDispatch, useSelector } from "react-redux"
+// import { clearUser, setUser } from "../redux/userSlice"
 
 function Header(props) {
   let [isUserLoggedIn,setisUserLoggedIn ]  = useState(false)
 
   const {data, setData} = useContext(MyContext)
+
+  // const dispatch = useDispatch();
+  // const user = useSelector((state) => state.user);
 
   useEffect(() => {
     setLocalDataToContext()
@@ -15,6 +20,14 @@ function Header(props) {
   const setLocalDataToContext = () => {
     const localUserData = localStorage.getItem('user')
     const token = localStorage.getItem('token')
+
+    // dispatch(setUser({
+    //   isAuth: token ? true : false,
+    //   fname: localUserData ? localUserData.fname : '',
+    //   lname: localUserData ? localUserData.lname : '',
+    //   username: localUserData ? localUserData.username : '',
+    //   token: token ? token : ''
+    // }));
 
     setData({
       isAuth: token ? true : false,

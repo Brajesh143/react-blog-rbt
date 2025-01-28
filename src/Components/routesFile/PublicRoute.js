@@ -10,6 +10,9 @@ import Terms from '../Terms'
 import UpdateBlog from '../UpdateBlog'
 import ResetPassword from '../ResetPassword'
 import ForgotPassword from '../ForgotPassword'
+import PrivateRoute from './PrivateRoute'
+import CreatePassword from '../CreatePassword'
+import Product from '../Product'
 
 export default function PublicRoute() {
   return (
@@ -18,14 +21,17 @@ export default function PublicRoute() {
         <Route path='/about-us' element={<About />} />
         <Route path='/terms' element={<Terms />} />
         <Route path='/blog' element={<Blog />} />
-        <Route path='/blog' element={<Blog />} />
-        <Route path='/my-profile' element={<MyProfile />} />
-        <Route path='/my-blog' element={<MyBlog />} />
-        <Route path='/create-blog' element={<CreateBlog />} />
-        <Route path='/edit-blog/:id' element={<UpdateBlog />} />
-        <Route path='/delete-blog/:id' element={<MyBlog />} />
-        <Route path='/reset-password' element={<ResetPassword />} />
+        <Route path='/product' element={<Product />} />
+        <Route path='/my-profile' element={<PrivateRoute><MyProfile /></PrivateRoute>} />
+        {/* <PrivateRoute path='/my-blog' element={<MyBlog />} /> */}
+        {/* <Route path='/my-blog' element={<MyBlog />} /> */}
+        <Route path="/my-blog" element={<PrivateRoute><MyBlog /></PrivateRoute>} />
+        <Route path='/create-blog' element={<PrivateRoute><CreateBlog /></PrivateRoute>} />
+        <Route path='/edit-blog/:id' element={<PrivateRoute><UpdateBlog /></PrivateRoute>} />
+        <Route path='/delete-blog/:id' element={<PrivateRoute><MyBlog /></PrivateRoute>} />
+        <Route path='/reset-password' element={<PrivateRoute><ResetPassword /></PrivateRoute>} />
         <Route path='/forgot-password' element={<ForgotPassword />} />
+        <Route path='/create-password' element={<CreatePassword />} />
     </Routes>
   )
 }
