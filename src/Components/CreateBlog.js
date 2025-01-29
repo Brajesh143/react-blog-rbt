@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import swal from "sweetalert";
+import { sendRequest } from "../utils/service";
 
 export default function CreateBlog(props) {
     const [blogInput, setBlogData] = useState({
@@ -49,19 +50,20 @@ export default function CreateBlog(props) {
                 formData.append('image', file);
             }
 
-            const token = localStorage.getItem('token')
-            let config = {
-                method: 'post',
-                maxBodyLength: Infinity,
-                url: 'http://localhost:5000/api/blog/create',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data'
-                },
-                data: formData
-            };
+            // const token = localStorage.getItem('token')
+            // let config = {
+            //     method: 'post',
+            //     maxBodyLength: Infinity,
+            //     url: 'http://localhost:5000/api/blog/create',
+            //     headers: {
+            //         'Authorization': `Bearer ${token}`,
+            //         'Content-Type': 'multipart/form-data'
+            //     },
+            //     data: formData
+            // };
 
-            const createBlog = await axios.request(config)
+            // const createBlog = await axios.request(config)
+            const createBlog = await sendRequest('post', 'blog/create', formData);
             const resData = createBlog.data
             if (createBlog.status === 201) {
                 swal("Success!", resData.message, "success");

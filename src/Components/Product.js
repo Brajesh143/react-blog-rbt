@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { Link } from 'react-router-dom'
 import PaginationComponent from './PaginationComponent';
-import axios from 'axios';
+import { sendRequest } from '../utils/service';
 
 export default function Product() {
   const [isLoading, setIsLoading] = useState(true);
@@ -15,13 +15,11 @@ export default function Product() {
     getProducts()
   }, []);
 
-  const getProducts = async() => {
-    const url = 'http://localhost:5000/api/product';
-    const productResponse = await axios.get(url);
-    if (productResponse.status === 200) {
-      console.log(productResponse.data.data)
-      setProducts(productResponse.data.data);
-      setIsLoading(false);
+  const getProducts = async () => {
+    const productDatas = await sendRequest('get', 'product');
+    if (productDatas.status === 200) {
+        setProducts(productDatas.data.data);
+        setIsLoading(false);
     }
   }
 
@@ -48,13 +46,13 @@ export default function Product() {
         </div>
         <div className='row'>
           { products.length > 0 && products.map(product => (
-            <div className='col-md-4'>
+            <div key={product._id} className='col-md-4'>
               <Card style={{ width: '24rem' }}>
                 <Card.Img variant="top" src={`http://localhost:5000${product.product_image || '/public/uploads/products/dummy_product.jpg'}`} height={250} />
                 <Card.Body>
-                  <Card.Title>{product?.name}</Card.Title>
+                  <Card.Title><Link style={{ textDecoration: "none" }}>{product?.name.slice(0, 35)}</Link></Card.Title>
                   <Card.Text style={{fontSize: "large", height: "70px"}}>
-                    {product?.description}
+                    {product?.description.length > 130 ? product?.description.slice(0, 130)+"..." : product?.description}
                   </Card.Text>
                   <Card.Text style={{fontSize: "x-large", height: "45px"}}>
                     {`$ ${product?.price}`}
