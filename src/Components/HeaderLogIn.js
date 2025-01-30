@@ -130,8 +130,8 @@ function HeaderLogIn(props) {
           />
           {errors.username && <span>{errors.username}</span>}
         </div>
-        <div className="col-md mr-0 pr-md-0 mb-3 mb-md-0">
-          <input  name="password" 
+        <div className="col-md mr-0 pr-md-0 mb-3 mb-md-0" style={{ marginTop: "25px"}}>
+          <input name="password" 
           className="form-control form-control-sm input-dark" 
           type="password" 
           placeholder="Password"
