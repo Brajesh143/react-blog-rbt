@@ -81,6 +81,7 @@ function HeaderLogIn(props) {
         props.setisUserLoggedIn(true)
         const resData = userData.data 
         const user_data_to_save = {
+          isAuth: true,
           fname: resData.data.fname,
           lname: resData.data.lname,
           username: resData.data.username

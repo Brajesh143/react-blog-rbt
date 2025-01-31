@@ -97,25 +97,25 @@ export default function Blog(props) {
           <h2 className="text-center">Blogs</h2>
         </div>
         {isLoading ?
-        <div class="text-center">
-          <div class="spinner-border m-5" role="status">
-            <span class="sr-only">Loading...</span>
+        <div className="text-center">
+          <div className="spinner-border m-5" role="status">
+            <span className="sr-only">Loading...</span>
           </div>
         </div>
         :
         <div className='row'>
           { blogs.length > 0 && blogs.map((blog) => (
             <div className='col-md-4'>
-              <div class="card">
-                <img src={`http://localhost:5000${blog.image}`} class="card-img-top" alt="..." height={150} />
-                <div class="card-body">
-                  <h5 class="card-title"><Link>{blog.title}</Link></h5>
-                  <p class="card-text text-justify">{blog.description}</p>
+              <div className="card">
+                <img src={`http://localhost:5000${blog.image}`} className="card-img-top" alt="..." height={150} />
+                <div className="card-body">
+                  <h5 className="card-title"><Link>{blog.title}</Link></h5>
+                  <p className="card-text text-justify">{blog.description}</p>
                 </div>
-                <div class="card-footer">
+                <div className="card-footer">
                   <div className='row'>
                     <div className='col-md-6'>
-                      <small class="text-body-secondary">Author : { blog.author.fname } {blog.author.lname} </small>
+                      <small className="text-body-secondary">Author : { blog.author.fname } {blog.author.lname} </small>
                     </div>
 
                     <div className='col-md-6'>
@@ -125,7 +125,7 @@ export default function Blog(props) {
                           <button className="btn btn-sm btn-primary mr-2" onClick={(e) => handleBlogDelete(e, blog._id)}>Delete</button>
                         </div>
                       ||
-                      <small class="text-body-secondary">Last updated 3 mins ago</small>
+                      <small className="text-body-secondary">Last updated 3 mins ago</small>
                       }
                     </div>
                   </div>

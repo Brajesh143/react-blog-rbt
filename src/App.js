@@ -9,10 +9,24 @@ import About from "./Components/About"
 import Terms from "./Components/Terms"
 import PublicRoute from './Components/routesFile/PublicRoute';
 import { MyContext } from './MyContext';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
   const [data, setData] = useState("")
+
+  useEffect(() => {
+    const localData = JSON.parse(localStorage.getItem('user'));
+
+    if (localData?.isAuth === true) {
+      setData({
+        isAuth: localData.isAuth,
+        fname: localData.fname,
+        lname: localData.lname,
+        username: localData.username,
+        token: localStorage.getItem('token')
+      })
+    }
+  }, [])
 
   return (
     <BrowserRouter>
