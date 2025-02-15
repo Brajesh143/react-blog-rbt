@@ -13,6 +13,7 @@ import ForgotPassword from '../ForgotPassword'
 import PrivateRoute from './PrivateRoute'
 import CreatePassword from '../CreatePassword'
 import Product from '../Product'
+import { Cart } from '../Cart'
 
 export default function PublicRoute() {
   return (
@@ -30,6 +31,7 @@ export default function PublicRoute() {
         <Route path='/edit-blog/:id' element={<PrivateRoute><UpdateBlog /></PrivateRoute>} />
         <Route path='/delete-blog/:id' element={<PrivateRoute><MyBlog /></PrivateRoute>} />
         <Route path='/reset-password' element={<PrivateRoute><ResetPassword /></PrivateRoute>} />
+        <Route path='/cart' element={<PrivateRoute><Cart /></PrivateRoute>} />
         <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/create-password' element={<CreatePassword />} />
     </Routes>
