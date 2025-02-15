@@ -18,6 +18,7 @@ function HeaderLoggedOut(props) {
     e.preventDefault()
 
     const token = localStorage.getItem('token')
+
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
