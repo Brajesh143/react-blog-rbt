@@ -2,9 +2,9 @@ import axios from "axios";
 
 const BASE_URL = 'http://localhost:5000/api/';
 
-let token = localStorage.getItem('token')
 
 const createConfig = (method, url, data) => {
+    let token = localStorage.getItem('token')
     if (method === 'post' || method === 'put') {
         return {
             method: method,
@@ -20,7 +20,11 @@ const createConfig = (method, url, data) => {
 
     return {
         method: method,
-        url: BASE_URL+''+url
+        url: BASE_URL+''+url,
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
+        },
     }
 }
 

@@ -1,60 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import './Cart.css';
+import { CartItems } from "./CartItems";
+import { sendRequest } from "../utils/service";
 
 export const Cart = () => {
+    const [carts, setCarts] = useState([]);
+
+    useEffect(() => {
+        getCarts()
+    }, []);
+
+    const getCarts = async() => {
+        const cartDatas = await sendRequest('GET', 'cart');
+        if (cartDatas.status === 200) {
+            setCarts(cartDatas?.data?.data[0]?.items);
+        }
+    }
+
     return (
         <>
             <div class="container py-5">
                 <h1 class="mb-5">Your Shopping Cart</h1>
                 <div class="row">
                     <div class="col-lg-8">
-                        <div class="card mb-4">
+                        <div class="card mb-4" style={{ height: "500px", overflowY: "auto" }}>
                             <div class="card-body">
-                                <div class="row cart-item mb-3">
-                                    <div class="col-md-3">
-                                        <img src="https://via.placeholder.com/100" alt="Product 1" class="img-fluid rounded" />
+                                { carts.length > 0 && carts.map((cart) => (
+                                    <div key={cart._id}>
+                                        <CartItems data={cart}  />
+                                        <hr />
                                     </div>
-                                    <div class="col-md-5">
-                                        <h5 class="card-title">Product 1</h5>
-                                        <p class="text-muted">Category: Electronics</p>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="input-group">
-                                            <button class="btn btn-outline-secondary btn-sm" type="button">-</button>
-                                            <input style={{maxWidth:"100px"}} type="text" class="form-control  form-control-sm text-center quantity-input" value="1" />
-                                            <button class="btn btn-outline-secondary btn-sm" type="button">+</button>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2 text-end">
-                                        <p class="fw-bold">$99.99</p>
-                                        <button class="btn btn-sm btn-outline-danger">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                    </div>
-                                </div>
-                                <hr />
-                                <div class="row cart-item">
-                                    <div class="col-md-3">
-                                        <img src="https://via.placeholder.com/100" alt="Product 2" class="img-fluid rounded" />
-                                    </div>
-                                    <div class="col-md-5">
-                                        <h5 class="card-title">Product 2</h5>
-                                        <p class="text-muted">Category: Clothing</p>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="input-group">
-                                            <button class="btn btn-outline-secondary btn-sm" type="button">-</button>
-                                            <input style={{maxWidth:"100px"}} type="text" class="form-control form-control-sm text-center quantity-input" value="2" />
-                                            <button class="btn btn-outline-secondary btn-sm" type="button">+</button>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2 text-end">
-                                        <p class="fw-bold">$49.99</p>
-                                        <button class="btn btn-sm btn-outline-danger">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                    </div>
-                                </div>
+                                ))}
                             </div>
                         </div>
                         <div class="text-start mb-4">
