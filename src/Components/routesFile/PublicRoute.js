@@ -13,7 +13,7 @@ import ForgotPassword from '../ForgotPassword'
 import PrivateRoute from './PrivateRoute'
 import CreatePassword from '../CreatePassword'
 import Product from '../Product'
-import { Cart } from '../Cart'
+import { Cart } from '../cart/Cart'
 
 export default function PublicRoute() {
   return (

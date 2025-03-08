@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import './Cart.css';
 import { CartItems } from "./CartItems";
-import { sendRequest } from "../utils/service";
+import { sendRequest } from "../../utils/service";
+import { Link } from "react-router-dom";
 
 export const Cart = () => {
     const [carts, setCarts] = useState([]);
+    const [totalPrice, setTotalPrice] = useState(0);
 
     useEffect(() => {
         getCarts()
@@ -13,7 +15,9 @@ export const Cart = () => {
     const getCarts = async() => {
         const cartDatas = await sendRequest('GET', 'cart');
         if (cartDatas.status === 200) {
-            setCarts(cartDatas?.data?.data[0]?.items);
+            console.log('cart data', cartDatas)
+            setCarts(cartDatas?.data?.cart);
+            setTotalPrice(cartDatas?.data?.totalPrice);
         }
     }
 
@@ -34,9 +38,9 @@ export const Cart = () => {
                             </div>
                         </div>
                         <div class="text-start mb-4">
-                            <a href="#" class="btn btn-outline-primary">
+                            <Link to="/product" class="btn btn-outline-primary">
                                 <i class="bi bi-arrow-left me-2"></i>Continue Shopping
-                            </a>
+                            </Link>
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -45,7 +49,7 @@ export const Cart = () => {
                                 <h5 class="card-title mb-4">Order Summary</h5>
                                 <div class="d-flex justify-content-between mb-3">
                                     <span>Subtotal</span>
-                                    <span>$199.97</span>
+                                    <span>${totalPrice}</span>
                                 </div>
                                 <div class="d-flex justify-content-between mb-3">
                                     <span>Shipping</span>
@@ -53,12 +57,12 @@ export const Cart = () => {
                                 </div>
                                 <div class="d-flex justify-content-between mb-3">
                                     <span>Tax</span>
-                                    <span>$20.00</span>
+                                    <span>$00.00</span>
                                 </div>
                                 <hr />
                                 <div class="d-flex justify-content-between mb-4">
                                     <strong>Total</strong>
-                                    <strong>$229.97</strong>
+                                    <strong>${totalPrice}</strong>
                                 </div>
                                 <button class="btn btn-primary w-100">Proceed to Checkout</button>
                             </div>

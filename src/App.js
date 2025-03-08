@@ -1,12 +1,7 @@
-import logo from './logo.svg';
 import './App.css';
-import { BrowserRouter, Routes, Route } from "react-router-dom"
-// My Components
+import { BrowserRouter } from "react-router-dom"
 import Header from "./Components/Header"
-import HomeGuest from "./Components/HomeGuest"
 import Footer from "./Components/Footer"
-import About from "./Components/About"
-import Terms from "./Components/Terms"
 import PublicRoute from './Components/routesFile/PublicRoute';
 import { MyContext } from './MyContext';
 import { useEffect, useState } from 'react';
@@ -23,7 +18,8 @@ function App() {
         fname: localData.fname,
         lname: localData.lname,
         username: localData.username,
-        token: localStorage.getItem('token')
+        token: localStorage.getItem('token'),
+        cartCount: localData.cartCount,
       })
     }
   }, [])
