@@ -1,4 +1,6 @@
 import React from "react";
+import { CartQuantity } from "./cart/CartQuantity";
+import { CartDelete } from "./cart/CartDelete";
 
 export const CartItems = ({ data }) => {
     const { product_id, quantity, price, _id } = data;
@@ -12,19 +14,8 @@ export const CartItems = ({ data }) => {
                 <h5 class="card-title">Product 1</h5>
                 <p class="text-muted">Category: Electronics</p>
             </div>
-            <div class="col-md-2">
-                <div class="input-group">
-                    <button class="btn btn-outline-secondary btn-sm" type="button">-</button>
-                    <input style={{maxWidth:"100px"}} type="text" class="form-control  form-control-sm text-center quantity-input" value={quantity} />
-                    <button class="btn btn-outline-secondary btn-sm" type="button">+</button>
-                </div>
-            </div>
-            <div class="col-md-2 text-end">
-                <p class="fw-bold">$ {price}</p>
-                <button class="btn btn-sm btn-outline-danger">
-                    <i class="bi bi-trash"></i>
-                </button>
-            </div>
+            <CartQuantity cartItem={data} />
+            <CartDelete cartItem={data} />
         </div>
     )
 }
