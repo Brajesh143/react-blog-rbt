@@ -1,10 +1,10 @@
 import './App.css';
 import { BrowserRouter } from "react-router-dom"
-import Header from "./Components/Header"
-import Footer from "./Components/Footer"
 import PublicRoute from './Components/routesFile/PublicRoute';
 import { MyContext } from './MyContext';
 import { useEffect, useState } from 'react';
+import Header from './Components/common/Header';
+import Footer from './Components/common/Footer';
 
 function App() {
   const [data, setData] = useState("")

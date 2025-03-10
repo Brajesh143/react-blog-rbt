@@ -4,9 +4,9 @@ import axios from "axios"
 import swal from "sweetalert"
 // import { useDispatch, useSelector } from "react-redux"
 // import { clearUser, setUser } from "../redux/userSlice"
-import { MyContext } from "../MyContext"
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import { MyContext } from "../../MyContext"
 
 function HeaderLoggedOut(props) {
   const {data, setData} = useContext(MyContext)

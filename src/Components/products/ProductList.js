@@ -2,7 +2,7 @@ import React from "react";
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
-import { sendRequest } from "../utils/service";
+import { sendRequest } from "../../utils/service";
 
 export const ProductList = (props) => {
     const { product } = props;

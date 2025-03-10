@@ -14,8 +14,7 @@ export const Cart = () => {
 
     const getCarts = async() => {
         const cartDatas = await sendRequest('GET', 'cart');
-        if (cartDatas.status === 200) {
-            console.log('cart data', cartDatas)
+        if (cartDatas.status === 200 && cartDatas.data.length > 0) {
             setCarts(cartDatas?.data?.cart);
             setTotalPrice(cartDatas?.data?.totalPrice);
         }

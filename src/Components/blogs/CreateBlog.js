@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import swal from "sweetalert";
-import { sendRequest } from "../utils/service";
+import { sendRequest } from "../../utils/service";
 
 export default function CreateBlog(props) {
     const [blogInput, setBlogData] = useState({
