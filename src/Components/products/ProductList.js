@@ -1,22 +1,31 @@
-import React from "react";
+import React, { useContext } from "react";
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 import { sendRequest } from "../../utils/service";
+import { MyContext } from "../../MyContext";
 
 export const ProductList = (props) => {
     const { product } = props;
+    const {data, setData} = useContext(MyContext)
 
     const handleAddToCart = async (product_id, price) => {
-        const data = {
+        const addToCartData = {
             "items": {
                 product_id: product_id,
                 quantity: 1,
                 price: price
             }
         };
+        console.log('addToCartData', addToCartData)
 
-        const addToCartRes = await sendRequest('post', 'cart', data);
+        const addToCartRes = await sendRequest('post', 'cart', addToCartData);
+        if (addToCartRes.status === 201) {
+            setData({
+                ...data,
+                cartCount: data.cartCount + 1
+            })
+        }
     }
 
     return (

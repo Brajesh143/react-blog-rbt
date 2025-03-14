@@ -13,10 +13,10 @@ export const CartDelete = ({ cartItem }) => {
     }
 
     return (
-        <div class="col-md-2 text-end">
-            <p class="fw-bold">$ {price}</p>
-            <button class="btn btn-sm btn-outline-danger" onClick={() => handleCartDelete(product._id)}>
-                <i class="bi bi-trash"></i>
+        <div className="col-md-2 text-end">
+            <p className="fw-bold">$ {price}</p>
+            <button className="btn btn-sm btn-outline-danger" onClick={() => handleCartDelete(product._id)}>
+                <i className="bi bi-trash"></i>
             </button>
         </div>
     )
