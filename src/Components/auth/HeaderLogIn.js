@@ -1,12 +1,11 @@
 import React, { useContext, useState } from "react"
-import axios from "axios"
 import swal from "sweetalert"
 import { Link } from "react-router-dom"
+import { MyContext } from "../../MyContext"
+import { sendRequest } from "../../utils/service"
 // import { useDispatch, useSelector } from "react-redux"
 // import { clearUser, handleLogin, setUser } from "../redux/userSlice"
 // import { createAsyncThunk } from "@reduxjs/toolkit"
-
-import { MyContext } from "../MyContext"
 
 function HeaderLogIn(props) {
   const { data, setData } = useContext(MyContext)
@@ -76,15 +75,17 @@ function HeaderLogIn(props) {
   const handleLogin = async (e) => {
     e.preventDefault()
     if (validation()) {
-      const userData = await axios.post('http://localhost:5000/api/user/login', userInput)
+      const userData = await sendRequest('post', 'user/login', userInput)
       if (userData.status === 200) {
         props.setisUserLoggedIn(true)
-        const resData = userData.data 
+
+        const resData = userData.data
         const user_data_to_save = {
           isAuth: true,
           fname: resData.data.fname,
           lname: resData.data.lname,
-          username: resData.data.username
+          username: resData.data.username,
+          cartCount: resData.cartCount
         }
 
         const token = resData.token
@@ -96,7 +97,8 @@ function HeaderLogIn(props) {
           fname: resData.data.fname,
           lname: resData.data.lname,
           username: resData.data.username,
-          token: token
+          token: token,
+          cartCount: resData.cartCount
         })
 
         // dispatch(setUser({

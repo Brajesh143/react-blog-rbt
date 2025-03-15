@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from "axios"
-import '../Blog.css'
+import './Blog.css'
 import swal from 'sweetalert'
 
 export default function Blog(props) {

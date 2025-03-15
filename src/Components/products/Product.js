@@ -3,8 +3,8 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { Link } from 'react-router-dom'
-import PaginationComponent from './PaginationComponent';
-import { sendRequest } from '../utils/service';
+import PaginationComponent from '../PaginationComponent';
+import { sendRequest } from '../../utils/service';
 import { ProductList } from './ProductList';
 
 export default function Product() {

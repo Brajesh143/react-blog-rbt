@@ -1,5 +1,4 @@
-import React, { useEffect } from "react"
-import Page from "./Page"
+import Page from "../common/Page"
 
 function About() {
   return (

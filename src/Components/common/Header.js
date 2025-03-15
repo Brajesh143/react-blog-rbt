@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState }  from "react"
-import HeaderLogIn from "./HeaderLogIn"
-import HeaderLoggedOut from "./HeaderLogout"
-import { MyContext } from "../MyContext"
+import HeaderLogIn from "../auth/HeaderLogIn"
+import HeaderLoggedOut from "../auth/HeaderLogout"
+import { MyContext } from "../../MyContext"
 // import { useDispatch, useSelector } from "react-redux"
 // import { clearUser, setUser } from "../redux/userSlice"
 

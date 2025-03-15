@@ -12,7 +12,7 @@ const createConfig = (method, url, data) => {
             url: BASE_URL+''+url,
             headers: {
                 'Authorization': `Bearer ${token}`,
-                'Content-Type': 'multipart/form-data'
+                // 'Content-Type': 'multipart/form-data'
             },
             data: data
         };
