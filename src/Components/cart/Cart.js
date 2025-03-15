@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import './Cart.css';
 import { CartItems } from "./CartItems";
 import { sendRequest } from "../../utils/service";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import swal from "sweetalert";
+import { MyContext } from "../../MyContext";
 
 export const Cart = () => {
     const [carts, setCarts] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
+    const navigate = useNavigate();
+    const { data, setData } = useContext(MyContext);
 
     useEffect(() => {
         getCarts()
@@ -24,7 +27,12 @@ export const Cart = () => {
     const handleOrder = async() => {
         const createOrder = await sendRequest('post', 'order');
         if (createOrder.status === 201) {
+            setData({
+                ...data,
+                cartCount: 0
+            })
             swal("Success!", createOrder.data.message, "success");
+            navigate('/');
         }
     }
 
@@ -36,6 +44,7 @@ export const Cart = () => {
         <>
             <div className="container py-5">
                 <h1 className="mb-5">Your Shopping Cart</h1>
+                { (carts.length > 0 &&
                 <div className="row">
                     <div className="col-lg-8">
                         <div className="card mb-4" style={{ height: "500px", overflowY: "auto" }}>
@@ -88,7 +97,10 @@ export const Cart = () => {
                             </div>
                         </div> */}
                     </div>
-                </div>
+                </div>)
+                || 
+                <div>Your cart is empty</div>
+                }
             </div>
         </>
     )
