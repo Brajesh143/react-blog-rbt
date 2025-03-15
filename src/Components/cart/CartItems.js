@@ -2,7 +2,7 @@ import React from "react";
 import { CartQuantity } from "./CartQuantity";
 import { CartDelete } from "./CartDelete";
 
-export const CartItems = ({ data }) => {
+export const CartItems = ({ data, onDelete }) => {
     const { product } = data;
 
     return (
@@ -15,7 +15,7 @@ export const CartItems = ({ data }) => {
                 <p className="text-muted">Category: Electronics</p>
             </div>
             <CartQuantity cartItem={data} />
-            <CartDelete cartItem={data} />
+            <CartDelete cartItem={data} onDelete={onDelete} />
         </div>
     )
 }

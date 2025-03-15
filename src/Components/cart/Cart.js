@@ -3,6 +3,7 @@ import './Cart.css';
 import { CartItems } from "./CartItems";
 import { sendRequest } from "../../utils/service";
 import { Link } from "react-router-dom";
+import swal from "sweetalert";
 
 export const Cart = () => {
     const [carts, setCarts] = useState([]);
@@ -20,6 +21,17 @@ export const Cart = () => {
         }
     }
 
+    const handleOrder = async() => {
+        const createOrder = await sendRequest('post', 'order');
+        if (createOrder.status === 201) {
+            swal("Success!", createOrder.data.message, "success");
+        }
+    }
+
+    const removeItemFromCart = (itemId) => {
+        setCarts((prevItems) => prevItems.filter(item => item._id !== itemId));
+    };
+
     return (
         <>
             <div className="container py-5">
@@ -30,7 +42,7 @@ export const Cart = () => {
                             <div className="card-body">
                                 { carts.length > 0 && carts.map((cart) => (
                                     <div key={cart._id}>
-                                        <CartItems data={cart}  />
+                                        <CartItems data={cart} onDelete={removeItemFromCart} />
                                         <hr />
                                     </div>
                                 ))}
@@ -63,7 +75,7 @@ export const Cart = () => {
                                     <strong>Total</strong>
                                     <strong>${totalPrice}</strong>
                                 </div>
-                                <button className="btn btn-primary w-100">Proceed to Checkout</button>
+                                <button onClick={handleOrder} className="btn btn-primary w-100">Proceed to Checkout</button>
                             </div>
                         </div>
                         {/* <div className="card mt-4">
