@@ -8,7 +8,6 @@ import { MyContext } from "../../MyContext";
 
 export const Cart = () => {
     const [carts, setCarts] = useState([]);
-    const [totalPrice, setTotalPrice] = useState(0);
     const navigate = useNavigate();
     const { data, setData } = useContext(MyContext);
 
@@ -20,7 +19,10 @@ export const Cart = () => {
         const cartDatas = await sendRequest('GET', 'cart');
         if (cartDatas.status === 200 && cartDatas.data.cart.length > 0) {
             setCarts(cartDatas?.data?.cart);
-            setTotalPrice(cartDatas?.data?.totalPrice);
+            setData({
+                ...data,
+                totalPrice: cartDatas?.data?.totalPrice
+            });
         }
     }
 
@@ -40,6 +42,10 @@ export const Cart = () => {
         setCarts((prevItems) => prevItems.filter(item => item._id !== itemId));
     };
 
+    const updateCart = () => {
+        // 
+    }
+
     return (
         <>
             <div className="container py-5">
@@ -51,7 +57,7 @@ export const Cart = () => {
                             <div className="card-body">
                                 { carts.length > 0 && carts.map((cart) => (
                                     <div key={cart._id}>
-                                        <CartItems data={cart} onDelete={removeItemFromCart} />
+                                        <CartItems data={cart} onDelete={removeItemFromCart} onUpdate={updateCart} />
                                         <hr />
                                     </div>
                                 ))}
@@ -69,11 +75,11 @@ export const Cart = () => {
                                 <h5 className="card-title mb-4">Order Summary</h5>
                                 <div className="d-flex justify-content-between mb-3">
                                     <span>Subtotal</span>
-                                    <span>${totalPrice}</span>
+                                    <span>${data.totalPrice}</span>
                                 </div>
                                 <div className="d-flex justify-content-between mb-3">
                                     <span>Shipping</span>
-                                    <span>$10.00</span>
+                                    <span>$00.00</span>
                                 </div>
                                 <div className="d-flex justify-content-between mb-3">
                                     <span>Tax</span>
@@ -82,7 +88,7 @@ export const Cart = () => {
                                 <hr />
                                 <div className="d-flex justify-content-between mb-4">
                                     <strong>Total</strong>
-                                    <strong>${totalPrice}</strong>
+                                    <strong>${data.totalPrice}</strong>
                                 </div>
                                 <button onClick={handleOrder} className="btn btn-primary w-100">Proceed to Checkout</button>
                             </div>

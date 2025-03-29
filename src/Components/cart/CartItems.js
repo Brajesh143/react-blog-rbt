@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { CartQuantity } from "./CartQuantity";
 import { CartDelete } from "./CartDelete";
 
-export const CartItems = ({ data, onDelete }) => {
-    const { product } = data;
+export const CartItems = ({ data, onDelete, onUpdate }) => {
+    const { product, price } = data;
+    const [itemPrice, setItemPrice] = useState(price);
 
     return (
         <div className="row cart-item mb-3">
@@ -12,10 +13,10 @@ export const CartItems = ({ data, onDelete }) => {
             </div>
             <div className="col-md-5">
                 <h5 className="card-title">{ product.name }</h5>
-                <p className="text-muted">Category: Electronics</p>
+                {/* <p className="text-muted">Category: Electronics</p> */}
             </div>
-            <CartQuantity cartItem={data} />
-            <CartDelete cartItem={data} onDelete={onDelete} />
+            <CartQuantity cartItem={data} onUpdate={onUpdate} setItemPrice={setItemPrice} />
+            <CartDelete cartItem={data} onDelete={onDelete} itemPrice={itemPrice} />
         </div>
     )
 }
