@@ -10,6 +10,8 @@ import { ProductList } from './ProductList';
 export default function Product() {
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState([]);
+  const [searchedProducts, setSearchedProducts] = useState([]);
+  const [searchInput, setSearchInput] = useState();
 
   useEffect(() => {
     getProducts()
@@ -19,8 +21,20 @@ export default function Product() {
     const productDatas = await sendRequest('get', 'product');
     if (productDatas.status === 200) {
         setProducts(productDatas.data.data);
+        setSearchedProducts(productDatas.data.data);
         setIsLoading(false);
     }
+  }
+
+  const handleProductSearch = () => {
+    let filterProducts = [];
+    if (searchInput === undefined || searchInput === '') {
+      filterProducts = products;
+    } else {
+      filterProducts = products.filter(product => product.name.toLowerCase().includes(searchInput.toLowerCase()));
+    }
+    setSearchedProducts(filterProducts);
+    setSearchInput();
   }
 
   return (
@@ -37,18 +51,27 @@ export default function Product() {
                 placeholder="search..."
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
+                onChange={(e) => setSearchInput(e.target.value)}
+                value={searchInput}
               />
-              <Button variant="outline-primary" id="button-addon2">
+              <Button variant="outline-primary" id="button-addon2" onClick={handleProductSearch}>
                 Search
               </Button>
             </InputGroup>
           </div>
         </div>
-        <div className='row'>
-          { products.length > 0 && products.map(product => (
-            <ProductList product={product} />
-          ))}
-        </div>
+        {isLoading ?
+          <div className="text-center">
+            <div className="spinner-border m-5" role="status">
+              <span className="sr-only">Loading...</span>
+            </div>
+          </div> :
+          <div className='row'>
+            { searchedProducts.length > 0 && searchedProducts.map(product => (
+              <ProductList product={product} />
+            ))}
+          </div>
+        }
 
         <PaginationComponent />
     </div>
