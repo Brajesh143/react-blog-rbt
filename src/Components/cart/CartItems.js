@@ -11,7 +11,7 @@ export const CartItems = ({ data, onDelete, onUpdate }) => {
             <div className="col-md-3">
                 <img src={`http://localhost:5000${product.product_image || '/public/uploads/products/dummy_product.jpg'}`} alt="Product 1" className="img-fluid rounded" style={{ height: "100px" }} />
             </div>
-            <div className="col-md-5">
+            <div className="col-md-4">
                 <h5 className="card-title">{ product.name }</h5>
                 {/* <p className="text-muted">Category: Electronics</p> */}
             </div>
