@@ -91,6 +91,7 @@ function HeaderLogIn(props) {
         const token = resData.token
         localStorage.setItem('user', JSON.stringify(user_data_to_save))
         localStorage.setItem('token', token)
+        localStorage.setItem('tokenExpiry', Date.now() + 60 * 60 * 1000);
 
         setData({
           isAuth: true,

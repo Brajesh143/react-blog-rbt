@@ -25,11 +25,15 @@ export const CartDelete = ({ cartItem, onDelete, itemPrice }) => {
     }
 
     return (
-        <div className="col-md-2 text-end">
-            <p className="fw-bold">$ {itemPrice}</p>
-            <button className="btn btn-sm btn-outline-danger" onClick={() => handleCartDelete(_id)}>
-                <i className="bi bi-trash"></i>
-            </button>
-        </div>
+        <>
+            <div className="col-md-2 text-end">
+                <p className="fw-bold">$ {itemPrice}</p>
+            </div>
+            <div className="col-md-1 text-end">
+                <button className="btn btn-sm btn-outline-danger" onClick={() => handleCartDelete(_id)}>
+                    <i className="bi bi-trash"></i>
+                </button>
+            </div>
+        </>
     )
 }

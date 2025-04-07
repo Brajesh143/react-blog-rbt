@@ -5,6 +5,7 @@ import { MyContext } from './MyContext';
 import { useEffect, useState } from 'react';
 import Header from './Components/common/Header';
 import Footer from './Components/common/Footer';
+import { sendRequest } from './utils/service';
 
 function App() {
   const [data, setData] = useState("")
@@ -13,6 +14,7 @@ function App() {
     const localData = JSON.parse(localStorage.getItem('user'));
 
     if (localData?.isAuth === true) {
+      masterApiCall();
       setData({
         isAuth: localData.isAuth,
         fname: localData.fname,
@@ -23,6 +25,16 @@ function App() {
       })
     }
   }, [])
+
+  const masterApiCall = async() => {
+    const masterResponse = await sendRequest('get', 'cart/master-endpoint');
+    if (masterResponse.status === 200) {
+        let item = JSON.parse(localStorage.getItem('user'));
+        item['cartCount'] = masterResponse.data.totalItems;
+        localStorage.setItem('user', JSON.stringify(item));
+    }
+    return true;
+  }
 
   return (
     <BrowserRouter>

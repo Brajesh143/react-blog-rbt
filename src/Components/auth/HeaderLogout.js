@@ -1,5 +1,5 @@
-import React, { useContext } from "react"
-import {Link}  from 'react-router-dom'
+import React, { useContext, useEffect } from "react"
+import {Link, useNavigate}  from 'react-router-dom'
 import axios from "axios"
 import swal from "sweetalert"
 // import { useDispatch, useSelector } from "react-redux"
@@ -13,6 +13,30 @@ function HeaderLoggedOut(props) {
 
   // const dispatch = useDispatch();
   // const user = useSelector((state) => state.user);
+
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    const tokenExpiry = localStorage.getItem('tokenExpiry');
+
+    if (tokenExpiry) {
+      const timeout = setTimeout(() => {
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        localStorage.removeItem('tokenExpiry');
+        setData({
+          isAuth: false,
+          fname: "",
+          lname: "",
+          username: "",
+          token: ""
+        })
+        navigate('/');
+      }, tokenExpiry - Date.now());
+
+      return () => clearTimeout(timeout);
+    }
+  }, []);
 
   const handleLogout = async(e) => {
     e.preventDefault()
@@ -33,6 +57,7 @@ function HeaderLoggedOut(props) {
       const userRes = userLogout.data
       localStorage.removeItem('token')
       localStorage.removeItem('user')
+      localStorage.removeItem('tokenExpiry');
 
       swal('Success!', userRes.message, 'success')
       props.setisUserLoggedIn(false)
