@@ -12,6 +12,7 @@ function App() {
 
   useEffect(() => {
     const localData = JSON.parse(localStorage.getItem('user'));
+
     if (localData?.isAuth === true) {
       masterApiCall();
       setData({
