@@ -1,13 +1,20 @@
 import React from "react";
 import Pagination from 'react-bootstrap/Pagination';
 
-function PaginationComponent() {
+function PaginationComponent({ currentPage, totalItems, itemsPerPage }) {
+  const totalPage = Math.ceil(totalItems / itemsPerPage);
+  console.log("total", totalItems, totalPage, totalPage.length);
+
   return (
     <Pagination>
       <Pagination.First />
       <Pagination.Prev />
-      <Pagination.Item>{1}</Pagination.Item>
-      <Pagination.Ellipsis />
+
+      { totalPage > 0 &&
+        <Pagination.Item>{1}</Pagination.Item>
+      }
+      
+      {/* <Pagination.Ellipsis />
 
       <Pagination.Item>{10}</Pagination.Item>
       <Pagination.Item>{11}</Pagination.Item>
@@ -16,7 +23,7 @@ function PaginationComponent() {
       <Pagination.Item disabled>{14}</Pagination.Item>
 
       <Pagination.Ellipsis />
-      <Pagination.Item>{20}</Pagination.Item>
+      <Pagination.Item>{20}</Pagination.Item> */}
       <Pagination.Next />
       <Pagination.Last />
     </Pagination>

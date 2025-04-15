@@ -70,7 +70,6 @@ export default function Blog(props) {
     } catch (err) {
       throw new Error(err)
     }
-
   }
 
   const handleClick = (pageNumber) => {
@@ -135,7 +134,7 @@ export default function Blog(props) {
           )) }
         </div>
         }
-        <div>{renderPageNumbers()}</div>
+        <div className='text-center'>{renderPageNumbers()}</div>
       </div>
     </>
   )
